@@ -3,12 +3,13 @@ FROM node:20-slim
 
 WORKDIR /usr/src/app
 
-# Actualizar npm a una versión sin el bug
-RUN npm install -g npm@10.9.2
+# Habilitar yarn (viene incluido con corepack en node 20)
+RUN corepack enable
 
 COPY package*.json ./
 
-RUN npm install --no-audit --no-fund && ls -la node_modules/express
+# Instalar dependencias con yarn en vez de npm
+RUN yarn install && ls -la node_modules/express
 
 COPY index.js .
 
